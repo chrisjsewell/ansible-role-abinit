@@ -23,7 +23,11 @@
   get_url:
     url: "{{ abinit_url }}"
     dest: "{{ abinit_code_folder }}/{{ abinit_src_archive }}"
+    timeout: 20
   register: abinit_download
+  until: not abinit_download.failed
+  retries: 3
+  delay: 10
 
 - name: Extract abinit source
   unarchive:
