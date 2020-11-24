@@ -13,7 +13,7 @@
 - name: Create the tox.ini
   template:
     src: tox.ini.j2
-    dest: "{{ abinit_code_folder }}/{{ abinit_src }}/config_options.sh"
+    dest: "{{ abinit_code_folder }}/{{ abinit_src }}/tests/tox.ini"
 
 - name: run the tests ({{ abinit_build_cpus }} cpu)
   shell: tox {{ item }} -- -j {{ abinit_build_cpus }}

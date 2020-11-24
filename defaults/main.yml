@@ -30,14 +30,14 @@ abinit_tests:
 - etsf_io
 - fast
 # - gpu
-- libxc[:4]  # some of these fail, but it seems just because of differences in the output file
+- libxc[:4]  # some of these fail, but it seems just because of minor diffs in the output file
 - mpiio
 - paral
 # - psml
 # - seq
-- tutoparal
-# - tutorespfn  # these take quite a long time
-- tutorial
+# - tutoparal
+# - tutorespfn
+# - tutorial
 - unitary
 # - v1
 # - v2
