@@ -9,7 +9,7 @@
     when: ansible_os_family == 'Debian'
 
   vars:
-    run_tests: false
+    run_tests: true
 
   roles:
-  - role: marvel-nccr.siesta
+  - role: marvel-nccr.abinit

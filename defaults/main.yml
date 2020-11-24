@@ -1,125 +1,53 @@
-siesta_version: "v4.1-rc2"
-siesta_minor_version: "v4.1"
-siesta_src: siesta-{{ siesta_version }}
-siesta_src_archive: "{{ siesta_src }}.tar.gz"
-siesta_code_folder: "/tmp"
-siesta_prefix: "/usr/local"
-siesta_data_folder: "{{ siesta_prefix }}/share/siesta"
-siesta_url: "https://gitlab.com/siesta-project/siesta/-/archive/{{ siesta_version }}/{{ siesta_src_archive }}"
-siesta_topdir: "{{ siesta_code_folder }}/siesta-{{ siesta_version }}"
+abinit_version: "9.2.1"
+abinit_src: abinit-{{ abinit_version }}
+abinit_src_archive: "{{ abinit_src }}.tar.gz"
+abinit_url: "https://www.abinit.org/sites/default/files/packages/{{ abinit_src_archive }}"
+abinit_code_folder: "/tmp"
+abinit_built_executable: "{{ abinit_code_folder }}/{{ abinit_src }}/build/src/98_main/abinit"
+abinit_prefix: "/usr/local"
 
-siesta_enable_netcdf: "1"
-siesta_enable_ncdf: "1"
-siesta_xmlf90_root: ""
-siesta_psml_root: ""
-siesta_gridxc_root: ""
-siesta_libxc_root: ""
-siesta_netcdf_incflags: "-I/usr/include"
-siesta_netcdf_libs: "-lnetcdff -lnetcdf"
-siesta_blacs_libs: "-lblacsF77init-openmpi -lblacsCinit-openmpi -lblacs-openmpi"
-siesta_scalapack_libs: "-lscalapack-openmpi {{ siesta_blacs_libs }}"
-siesta_lapack_libs: "-llapack -lblas"
+abinit_build_cpus: 2
 
-siesta_executables:
-- name: siesta
-  folder: "{{ siesta_prefix }}"
-  plugin: siesta.siesta
-#
-# After a recent upgrade, this program is not compatible with the STM plugin :-(
-# The version shipped with siesta-4.0.X is still appropriate
-#  - name: plstm
-#    folder: "{{ siesta_prefix }}/Util/STM/simple-stm/plstm"
-#    plugin: siesta.stm
+abinit_config_options:
+  # mandatory libraries
+  # ("yes" means auto-detect or provide a direct path.)
+  with_libxc: "yes"
+  with_hdf5: "yes"
+  with_netcdf: "yes"
+  with_netcdf_fortran: "yes"
+  # MPI settings
+  with_mpi: "yes"
+  enable_mpi_io: "yes"
+  # linear algebra settings
+  with_linalg_flavor: "netlib"
+  LINALG_LIBS: "-L/usr/lib/x86_64-linux-gnu -llapack -lblas"
 
-# Utilities in Util/
-siesta_utils:
-- name: denchar
-  dir: Util/Denchar/Src
-  description: >-
-    Charge density and wave-function plotting
-- name: g2c_ng
-  dir: Util/Grid
-  description: >-
-    Converter from native grid to Cube format
-- name: macroave
-  dir: Util/Macroave/Src
-  description: >-
-    Macroscopic averages processor
-- name: mprop
-  dir: Util/COOP
-  description: >-
-    COOP/COHP processor
-- name: fat
-  dir: Util/COOP
-  description: >-
-    Fat-bands processor
-- name: gnubands
-  dir: Util/Bands
-  description: >-
-    Band-structure plotting
-- name: eigfat2plot
-  dir: Util/Bands
-  description: >-
-    Fat-bands plotting
-- name: tbtrans
-  dir: Util/TS/TBtrans
-  description: >-
-    Transport post-processor
-
-siesta_pps:
-  # - name: nc-sr-pbe-stringent-0.4
-  #   folder: nc-sr-pbe-stringent-0.4
-  #   file: nc-sr-04_pbe_stringent_psml.tgz
-  #   url: http://departments.icmab.es/leem/SIESTA_MATERIAL/tmp_PseudoDojo/
-  #   home_page: http://www.pseudo-dojo.org/
-  #   description: >-
-  #    Norm-conserving scalar-relativistic pseudopotentials v0.4 for the PBE
-  #    functional (NC SR ONCVPSP v0.4) from pseudo-dojo.org.
-  #    Accuracy "stringent", format PSML.
-  # - name: nc-sr-pbe-standard-0.4
-  #   folder: nc-sr-pbe-standard-0.4
-  #   file: nc-sr-04_pbe_standard_psml.tgz
-  #   url: http://departments.icmab.es/leem/SIESTA_MATERIAL/tmp_PseudoDojo/
-  #   home_page: http://www.pseudo-dojo.org/
-  #   description: >-
-  #    Norm-conserving scalar-relativistic pseudopotentials v0.4 for the PBE
-  #    functional (NC SR ONCVPSP v0.4) from pseudo-dojo.org.
-  #    Accuracy "standard", format PSML.
-- name: nc-sr-pbe-standard-0.4
-  file: nc-sr-04_pbe_standard-psf.tgz
-  url: https://icmab.es/leem/SIESTA_MATERIAL/tmp_PseudoDojo
-  home_page: http://www.pseudo-dojo.org/
-  description: >-
-    Norm-conserving scalar-relativistic pseudopotentials v0.4 for the PBE
-    functional (NC SR ONCVPSP v0.4) from pseudo-dojo.org.
-    Accuracy "standard", format PSF.
-  # - name: nc-fr-pbe-stringent-0.4
-  #   folder: nc-fr-pbe-stringent-0.4
-  #   file: nc-fr-04_pbe_stringent_psml.tgz
-  #   url: http://departments.icmab.es/leem/SIESTA_MATERIAL/tmp_PseudoDojo/
-  #   home_page: http://www.pseudo-dojo.org/
-  #   description: >-
-  #    Norm-conserving fully-relativistic pseudopotentials v0.4 for the PBE
-  #    functional (NC FR ONCVPSP v0.4) from pseudo-dojo.org.
-  #    Accuracy "stringent", format PSML.
-  # - name: nc-fr-pbe-standard-0.4
-  #   folder: nc-fr-pbe-standard-0.4
-  #   file: nc-fr-04_pbe_standard_psml.tgz
-  #   url: http://departments.icmab.es/leem/SIESTA_MATERIAL/tmp_PseudoDojo/
-  #   home_page: http://www.pseudo-dojo.org/
-  #   description: >-
-  #    Norm-conserving fully-relativistic pseudopotentials v0.4 for the PBE
-  #    functional (NC FR ONCVPSP v0.4) FRom pseudo-dojo.org.
-  #    Accuracy "standard", format PSML.
-- name: nc-fr-pbe-standard-0.4
-  file: nc-fr-04_pbe_standard-psf.tgz
-  url: https://icmab.es/leem/SIESTA_MATERIAL/tmp_PseudoDojo
-  home_page: http://www.pseudo-dojo.org/
-  description: >-
-    Norm-conserving fully-relativistic pseudopotentials v0.4 for the PBE
-    functional (NC FR ONCVPSP v0.4) FRom pseudo-dojo.org.
-    Accuracy "standard", format PSF.
-
-siesta_tests:
-- h2o
-- mno_ldau
+abinit_tests:
+# - atompaw
+# - bigdft
+# - bigdft_paral
+# - built-in
+- etsf_io
+- fast
+# - gpu
+# - libxc  # some of these fail, but it seems just because of differences in the output file
+- mpiio
+- paral
+# - psml
+# - seq
+- tutoparal
+# - tutorespfn  # these take quite a long time
+- tutorial
+- unitary
+# - v1
+# - v2
+# - v3
+# - v4
+# - v5
+# - v6
+# - v67mbpt
+# - v7
+# - v8
+- v9
+# - vdwxc
+# - wannier90

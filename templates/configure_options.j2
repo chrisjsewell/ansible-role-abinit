@@ -1,0 +1,9 @@
+# See https://docs.abinit.org/INSTALL_Ubuntu/
+
+{% for key, value in abinit_config_options.items() %}
+{%- if value is boolean -%}
+{{ key }}="{{'yes' if value else 'no'}}"
+{% else %}
+{{ key }}="{{ value }}"
+{% endif %}
+{% endfor %}

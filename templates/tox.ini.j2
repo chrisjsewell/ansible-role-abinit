@@ -1,0 +1,10 @@
+[tox]
+envlist = test
+
+[testenv:test]
+skip_install = true
+deps = 
+    numpy
+    pandas
+    pyyaml
+commands = python runtests.py --build-tree="{{ abinit_code_folder }}/{{ abinit_src }}/build" {posargs}

@@ -8,7 +8,7 @@ on:
   pull_request:
 
 env:
-  galaxy-name: "marvel-nccr.siesta"
+  galaxy-name: "marvel-nccr.abinit"
 
 jobs:
 
@@ -27,7 +27,7 @@ jobs:
 
     strategy:
       matrix:
-        distro: [ubuntu1604, ubuntu1804]
+        distro: [ubuntu1604, ubuntu1804, ubunut2004]
       fail-fast: false
 
     runs-on: ubuntu-latest

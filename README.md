@@ -1,14 +1,14 @@
-[![CI](https://github.com/marvel-nccr/ansible-role-siesta/workflows/CI/badge.svg)](https://github.com/marvel-nccr/ansible-role-siesta/actions)
-[![Ansible Role](https://img.shields.io/ansible/role/25521.svg)](https://galaxy.ansible.com/marvel-nccr/siesta)
-[![Release](https://img.shields.io/github/tag/marvel-nccr/ansible-role-siesta.svg)](https://github.com/marvel-nccr/ansible-role-siesta/releases)
+[![CI](https://github.com/marvel-nccr/ansible-role-abinit/workflows/CI/badge.svg)](https://github.com/marvel-nccr/ansible-role-abinit/actions)
+[![Ansible Role](https://img.shields.io/ansible/role/25521.svg)](https://galaxy.ansible.com/marvel-nccr/abinit)
+[![Release](https://img.shields.io/github/tag/marvel-nccr/ansible-role-abinit.svg)](https://github.com/marvel-nccr/ansible-role-abinit/releases)
 
-# Ansible Role: marvel-nccr.siesta
+# Ansible Role: marvel-nccr.abinit
 
-An Ansible role that installs [Siesta](https://launchpad.net/siesta) on Ubuntu.
+An Ansible role that installs [abinit](https://www.abinit.org) on Ubuntu.
 
 ## Installation
 
-`ansible-galaxy install marvel-nccr.siesta`
+`ansible-galaxy install marvel-nccr.abinit`
 
 ## Role Variables
 
@@ -19,7 +19,7 @@ See `defaults/main.yml`
 ```yaml
 - hosts: servers
   roles:
-  - role: marvel-nccr.siesta
+  - role: marvel-nccr.abinit
 ```
 
 ## Development and testing
@@ -28,11 +28,11 @@ This role uses [Molecule](https://molecule.readthedocs.io/en/latest/#) and [Dock
 
 After installing [Docker](https://www.docker.com/):
 
-Clone the repository into a package named `marvel-nccr.siesta` (the folder must be named the same as the Ansible Galaxy name)
+Clone the repository into a package named `marvel-nccr.abinit` (the folder must be named the same as the Ansible Galaxy name)
 
 ```bash
-git clone https://github.com/marvel-nccr/ansible-role-siesta marvel-nccr.siesta
-cd marvel-nccr.siesta
+git clone https://github.com/marvel-nccr/ansible-role-abinit marvel-nccr.abinit
+cd marvel-nccr.abinit
 ```
 
 Then run:

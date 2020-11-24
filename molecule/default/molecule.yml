@@ -18,5 +18,13 @@ provisioner:
   name: ansible
   playbooks:
     converge: converge.yml
+  config_options:
+    defaults:
+      # nicer stdout printing
+      stdout_callback: yaml
+      bin_ansible_callbacks: true
+      # add timing to tasks
+      callback_whitelist: profile_tasks
+
 # Remove Ansible no_log settings for debugging
 # log: true

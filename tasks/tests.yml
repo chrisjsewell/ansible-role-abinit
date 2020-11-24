@@ -1,13 +1,15 @@
-# running all tests would take of the order of 1h
-# there is currently a bug that results in the test failing
-# https://bugs.launchpad.net/siesta/+bug/1725813
-- name: run siesta tests
-  shell: "make tests={{ item }} check"
-  args:
-    chdir: "{{ siesta_topdir }}/Obj/Tests"
-    creates: "{{ siesta_topdir }}/Obj/Tests/{{ item }}/work"
-  with_items: "{{ siesta_tests }}"
+- name: Install tox
+  pip:
+    name: tox
 
-# fails (return code != 0), if "Test Failed." is found
-# - name: check siesta test results
-#   command: grep -vFxq "Test Failed." "{{ siesta_topdir }}/build/Testing/Temporary/LastTest.log"
+- name: Create the tox.ini
+  template:
+    src: tox.ini.j2
+    dest: "{{ abinit_code_folder }}/{{ abinit_src }}/config_options.sh"
+
+- name: run the tests ({{ abinit_build_cpus }} cpu)
+  shell: tox {{ item }} -- -j {{ abinit_build_cpus }}
+  args:
+    chdir: "{{ abinit_code_folder }}/{{ abinit_src }}/tests"
+  with_items: "{{ abinit_tests }}"
+  changed_when: false
