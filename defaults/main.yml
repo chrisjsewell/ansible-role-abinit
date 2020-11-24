@@ -30,7 +30,7 @@ abinit_tests:
 - etsf_io
 - fast
 # - gpu
-# - libxc  # some of these fail, but it seems just because of differences in the output file
+- libxc[:4]  # some of these fail, but it seems just because of differences in the output file
 - mpiio
 - paral
 # - psml

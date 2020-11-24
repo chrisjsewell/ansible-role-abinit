@@ -16,7 +16,6 @@
     - libscalapack-mpi-dev
     - libxc-dev
     - netcdf-bin
-    - ssh # for tests
     - unzip
 
 - name: Get abinit source
