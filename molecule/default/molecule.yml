@@ -16,7 +16,7 @@ platforms:
     LANG: "en_US.UTF-8"
 provisioner:
   name: ansible
-  log: true  # for debugging
+  # log: true  # for debugging
   playbooks:
     converge: converge.yml
   config_options:
