@@ -30,7 +30,7 @@ abinit_tests:
 - etsf_io
 - fast
 # - gpu
-- libxc[:4]  # some of these fail, but it seems just because of minor diffs in the output file
+- libxc[:4]  # some of these fail, but it seems just because of minor, intermittent diffs in the output file
 - mpiio
 - paral
 # - psml
@@ -48,6 +48,6 @@ abinit_tests:
 # - v67mbpt
 # - v7
 # - v8
-- v9
+- v9[:50]
 # - vdwxc
 # - wannier90
