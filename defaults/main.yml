@@ -37,7 +37,7 @@ abinit_tests:
 # - seq
 # - tutoparal
 # - tutorespfn
-# - tutorial
+- tutorial
 # - unitary
 # - v1
 # - v2
@@ -48,6 +48,6 @@ abinit_tests:
 # - v67mbpt
 # - v7
 # - v8
-- v9[:50]
+# - v9
 # - vdwxc
 # - wannier90
