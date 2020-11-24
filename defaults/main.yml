@@ -6,6 +6,7 @@ abinit_code_folder: "/tmp"
 abinit_built_executable: "{{ abinit_code_folder }}/{{ abinit_src }}/build/src/98_main/abinit"
 abinit_prefix: "/usr/local"
 
+# used for make and runtest -j
 abinit_build_cpus: 2
 
 abinit_config_options:
@@ -48,6 +49,6 @@ abinit_tests:
 # - v67mbpt
 # - v7
 # - v8
-- v9[:50]
+# - v9
 # - vdwxc
 # - wannier90
