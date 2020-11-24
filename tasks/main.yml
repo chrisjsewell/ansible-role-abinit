@@ -7,7 +7,7 @@
     - openmpi-common
     - openmpi-bin
     - libopenmpi-dev
-    - libblacs-mpi-dev
+    - libblacs-mpi-dev  # this is not available on ubuntu 20.04
     - libblas-dev
     - libhdf5-openmpi-dev
     - liblapack-dev
@@ -17,6 +17,7 @@
     - libxc-dev
     - netcdf-bin
     - unzip
+    # - build-essential  # this would be required by ubuntu 20.04
 
 - name: Get abinit source
   get_url:

@@ -20,5 +20,9 @@
   shell: tox {{ item }} -- -j {{ abinit_build_cpus }}
   args:
     chdir: "{{ abinit_code_folder }}/{{ abinit_src }}/tests"
-  with_items: "{{ abinit_tests }}"
+  register: abinit_test
+  until: not abinit_test.failed
+  retries: 2
+  delay: 1
+  loop: "{{ abinit_tests }}"
   changed_when: false
