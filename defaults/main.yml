@@ -1,7 +1,9 @@
 abinit_version: "9.2.1"
 abinit_src: abinit-{{ abinit_version }}
 abinit_src_archive: "{{ abinit_src }}.tar.gz"
-abinit_url: "https://www.abinit.org/sites/default/files/packages/{{ abinit_src_archive }}"
+abinit_url: "https://github.com/abinit/abinit/archive/{{ abinit_src_archive }}"
+# this source seems to fail quite often on the CI
+# abinit_url: "https://www.abinit.org/sites/default/files/packages/{{ abinit_src_archive }}"
 abinit_code_folder: "/tmp"
 abinit_built_executable: "{{ abinit_code_folder }}/{{ abinit_src }}/build/src/98_main/abinit"
 abinit_prefix: "/usr/local"
