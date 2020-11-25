@@ -9,6 +9,7 @@ abinit_prefix: "/usr/local"
 # used for make and runtest -j
 abinit_build_cpus: 2
 
+# See https://docs.abinit.org/INSTALL_Ubuntu/
 abinit_config_options:
   # mandatory libraries
   # ("yes" means auto-detect or provide a direct path.)
@@ -31,7 +32,7 @@ abinit_tests:
 - etsf_io
 - fast
 # - gpu
-- libxc[:4]  # some of these fail, but it seems just because of minor, intermittent diffs in the output file
+- libxc[:4]
 - mpiio
 - paral
 # - psml

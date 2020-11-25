@@ -10,10 +10,11 @@
   vars:
     python_base_version: '3.7'
     python_venv_path: /tmp/abinit_test_venv
+    python_venv_state: present
     python_venv_packages:
-    - numpy
-    - pandas
-    - pyyaml
+    - numpy==1.19.4
+    - pandas==1.1.4
+    - pyyaml==5.3.1
 
 - name: run the tests ({{ abinit_build_cpus }} cpu)
   shell: /tmp/abinit_test_venv/bin/python runtests.py --build-tree="{{ abinit_code_folder }}/{{ abinit_src }}/build" -j {{ abinit_build_cpus }} {{ item }}

@@ -1,7 +1,7 @@
 allow_duplicates: false
 
 galaxy_info:
-  author: "MARVEL NCCR / Siesta project"
+  author: "MARVEL NCCR"
   description: "An Ansible role that installs [abinit](https://www.abinit.org) on Ubuntu."
   license: MIT
   min_ansible_version: 2.7
