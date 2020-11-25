@@ -20,6 +20,8 @@ See `defaults/main.yml`
 - hosts: servers
   roles:
   - role: marvel-nccr.abinit
+    vars:
+      abinit_version: "9.2.1"
 ```
 
 ## Development and testing
