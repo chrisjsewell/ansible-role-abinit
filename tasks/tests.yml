@@ -2,22 +2,21 @@
   become: true
   apt:
     name:
-    - libyaml-dev
-    - python3-dev
-    - python3-pip
     - ssh
 
-- name: Install tox
-  pip:
-    name: tox
-
-- name: Create the tox.ini
-  template:
-    src: tox.ini.j2
-    dest: "{{ abinit_code_folder }}/{{ abinit_src }}/tests/tox.ini"
+- name: Create python testing venv
+  import_role:
+    name: marvel-nccr.python
+  vars:
+    python_base_version: '3.7'
+    python_venv_path: /tmp/abinit_test_venv
+    python_venv_packages:
+    - numpy
+    - pandas
+    - pyyaml
 
 - name: run the tests ({{ abinit_build_cpus }} cpu)
-  shell: tox {{ item }} -- -j {{ abinit_build_cpus }}
+  shell: /tmp/abinit_test_venv/bin/python runtests.py --build-tree="{{ abinit_code_folder }}/{{ abinit_src }}/build" -j {{ abinit_build_cpus }} {{ item }}
   args:
     chdir: "{{ abinit_code_folder }}/{{ abinit_src }}/tests"
   register: abinit_test

@@ -27,9 +27,8 @@ jobs:
 
     strategy:
       matrix:
-        # ubuntu 1604 has the wrong python version for the tests and
         # ubuntu 2004 does not have a defult apt version for libblacs-mpi-dev
-        distro: [ubuntu1804]
+        distro: [ubuntu1604, ubuntu1804]
       fail-fast: false
 
     runs-on: ubuntu-latest
