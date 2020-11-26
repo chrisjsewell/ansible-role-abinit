@@ -2,6 +2,8 @@ abinit_version: "9.2.1"
 abinit_src: abinit-{{ abinit_version }}
 abinit_src_archive: "{{ abinit_src }}.tar.gz"
 abinit_url: "https://www.abinit.org/sites/default/files/packages/{{ abinit_src_archive }}"
+# the standard download URL fails intermittently on CI, therefore we also provide an alternate
+abinit_url_alt: https://github.com/marvel-nccr/ansible-role-abinit/releases/download/abinit-src/{{ abinit_src_archive }}
 abinit_code_folder: "/tmp"
 abinit_built_executable: "{{ abinit_code_folder }}/{{ abinit_src }}/build/src/98_main/abinit"
 abinit_prefix: "/usr/local"
