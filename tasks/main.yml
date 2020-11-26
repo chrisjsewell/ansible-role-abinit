@@ -1,5 +1,5 @@
-# see https://pelios.csx.cam.ac.uk/~mc321/siesta.html
-- name: Install siesta dependencies
+# https://docs.abinit.org/INSTALL_Ubuntu/
+- name: Install abinit dependencies
   become: true
   apt:
     name:
@@ -7,156 +7,105 @@
     - openmpi-common
     - openmpi-bin
     - libopenmpi-dev
-    - libblacs-mpi-dev
+    - libblacs-mpi-dev  # this is not available on ubuntu 20.04
+    - libblas-dev
+    - libhdf5-openmpi-dev
+    - liblapack-dev
     - libnetcdf-dev
-    - netcdf-bin
     - libnetcdff-dev
     - libscalapack-mpi-dev
-    - libblas-dev
-    - liblapack-dev
+    - libxc-dev
+    - netcdf-bin
     - unzip
+    # - build-essential  # this would be required by ubuntu 20.04
 
-- name: Get siesta source
+- name: Get abinit source
   get_url:
-    url: "{{ siesta_url }}"
-    dest: "{{ siesta_code_folder }}/{{ siesta_src_archive }}"
-  register: siesta_download
+    url: "{{ abinit_url }}"
+    dest: "{{ abinit_code_folder }}/{{ abinit_src_archive }}"
+    timeout: 20
+  register: abinit_download
+  until: not abinit_download.failed
+  retries: 3
+  delay: 10
 
-- name: Extract siesta source
+- name: Extract abinit source
   unarchive:
-    src: "{{ siesta_download.dest }}"
-    dest: "{{ siesta_code_folder }}"
+    src: "{{ abinit_download.dest }}"
+    dest: "{{ abinit_code_folder }}"
     remote_src: true
 
-- name: create Makefile
-  shell: ../Src/obj_setup.sh
-  args:
-    chdir: "{{ siesta_topdir }}/Obj"
-    creates: "{{ siesta_topdir }}/Obj/Makefile"
-
-- name: copy arch.make
+- name: Create configuration options file
   template:
-    src: full_options.make
-    dest: "{{ siesta_topdir }}/Obj/arch.make"
+    src: configure_options.j2
+    dest: "{{ abinit_code_folder }}/{{ abinit_src }}/config_options.sh"
+  register: abinit_conf_options
 
-- name: Make siesta executables
-  shell: "make"
-  args:
-    chdir: "{{ siesta_topdir }}/Obj"
-    creates: "{{ siesta_topdir }}/Obj/siesta"
-  register: siesta_make
+- name: If configuration changed, remove build folder
+  when: abinit_conf_options.changed
+  file:
+    path: "{{ abinit_code_folder }}/{{ abinit_src }}/build"
+    state: absent
 
-- name: Make COOP/COHP utility
-  shell: "make mprop"
-  args:
-    chdir: "{{ siesta_topdir }}/Util/COOP"
-    creates: "{{ siesta_topdir }}/Util/COOP/mprop"
-  register: mprop_make
+- name: Create build folder
+  file:
+    path: "{{ abinit_code_folder }}/{{ abinit_src }}/build"
+    state: directory
 
-- name: Make fat utility
-  shell: "make fat"
+- name: Create Makefile
+  shell: |
+    ../configure --with-config-file="{{ abinit_code_folder }}/{{ abinit_src }}/config_options.sh"
   args:
-    chdir: "{{ siesta_topdir }}/Util/COOP"
-    creates: "{{ siesta_topdir }}/Util/COOP/fat"
-  register: fat_make
+    chdir: "{{ abinit_code_folder }}/{{ abinit_src }}/build"
+    creates: "{{ abinit_code_folder }}/{{ abinit_src }}/build/Makefile"
+  register: abinit_create_make
 
-- name: Make gnubands utility
-  shell: "make gnubands"
-  args:
-    chdir: "{{ siesta_topdir }}/Util/Bands"
-    creates: "{{ siesta_topdir }}/Util/Bands/gnubands"
-  register: gnubands_make
+# - name: Print configuration outcome
+#   when: abinit_create_make.changed
+#   debug:
+#     var: abinit_create_make.stdout
 
-- name: Make eigfat2plot utility
-  shell: "make eigfat2plot"
+- name: Check that the Makefile was created
+  stat:
+    path: "{{ abinit_code_folder }}/{{ abinit_src }}/build/Makefile"
+  register: abinit_makefile
+  failed_when: not abinit_makefile.stat.exists
+
+- name: Make abinit executable ({{ abinit_build_cpus }} cpu)
+  shell: "make -j{{ abinit_build_cpus }}"
   args:
-    chdir: "{{ siesta_topdir }}/Util/Bands"
-    creates: "{{ siesta_topdir }}/Util/Bands/eigfat2plot"
-  register: eigfat2plot_make
+    chdir: "{{ abinit_code_folder }}/{{ abinit_src }}/build"
+    creates: "{{ abinit_built_executable }}"
+  register: abinit_make
 
 - import_tasks: tests.yml
-  when: siesta_make.changed and run_tests is defined and run_tests
+  when: abinit_make.changed and run_tests is defined and run_tests
 
-- name: Install siesta executable
+- name: Install abinit executable
   become: true
   copy:
-    src: "{{ siesta_topdir }}/Obj/siesta"
-    dest: "{{ siesta_prefix }}/bin"
+    src: "{{ abinit_built_executable }}"
+    dest: "{{ abinit_prefix }}/bin"
     remote_src: true
     mode: '0755'
-  register: siesta_install
-
-- name: Install mprop executable
-  become: true
-  copy:
-    src: "{{ siesta_topdir }}/Util/COOP/mprop"
-    dest: "{{ siesta_prefix }}/bin"
-    remote_src: true
-    mode: '0755'
-  register: mprop_install
-
-- name: Install fat executable
-  become: true
-  copy:
-    src: "{{ siesta_topdir }}/Util/COOP/fat"
-    dest: "{{ siesta_prefix }}/bin"
-    remote_src: true
-    mode: '0755'
-  register: fat_install
-
-- name: Install gnubands executable
-  become: true
-  copy:
-    src: "{{ siesta_topdir }}/Util/Bands/gnubands"
-    dest: "{{ siesta_prefix }}/bin"
-    remote_src: true
-    mode: '0755'
-  register: gnubands_install
-
-- name: Install eigfat2plot executable
-  become: true
-  copy:
-    src: "{{ siesta_topdir }}/Util/Bands/eigfat2plot"
-    dest: "{{ siesta_prefix }}/bin"
-    remote_src: true
-    mode: '0755'
-  register: eigfat2plot_install
+  register: abinit_install
 
 - name: Add release notes (version)
   include_role:
     name: release_notes
   vars:
-    section: "siesta"
+    section: "abinit"
     option: "version"
-    value: "{{ siesta_version }}"
+    value: "{{ abinit_version }}"
   when: release_notes is defined and release_notes
 
 - name: Add release notes (usage)
   include_role:
     name: release_notes
   vars:
-    section: "siesta"
+    section: "abinit"
     option: "usage"
     value: >-
-      siesta is compiled and installed in {{ siesta_prefix }}.
-      Simply run 'siesta' or any of its utilites:
-         mprop
-         fat
-         gnubands
-         eigfat2plot
+      abinit is compiled and installed in {{ abinit_prefix }}.
+      Simply run 'abinit'.
   when: release_notes is defined and release_notes
-
-# Process utilities
-- include_tasks: siesta-utils.yml
-  vars:
-    prog: "{{ item }}"
-  with_items: "{{ siesta_utils }}"
-  tags: siesta_utilites
-
-# Pseudopotentials
-- name: Add pseudopotentials
-  include_tasks: pps.yml
-  vars:
-    pp: "{{ item }}"
-  with_items: "{{ siesta_pps }}"
-  tags: siesta_pps

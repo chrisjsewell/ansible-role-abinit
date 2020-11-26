@@ -1,8 +1,8 @@
 allow_duplicates: false
 
 galaxy_info:
-  author: "MARVEL NCCR / Siesta project"
-  description: "An Ansible role that installs [Siesta](https://gitlab.com/siesta-project/siesta) on Ubuntu."
+  author: "MARVEL NCCR"
+  description: "An Ansible role that installs [abinit](https://www.abinit.org) on Ubuntu."
   license: MIT
   min_ansible_version: 2.7
   platforms:
@@ -14,3 +14,8 @@ galaxy_info:
   - ubuntu
   - application
   - science
+
+dependencies:
+- name: marvel-nccr.python
+  version: v0.2.0
+  tags: [never]

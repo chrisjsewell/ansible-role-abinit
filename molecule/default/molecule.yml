@@ -1,6 +1,6 @@
 dependency:
   name: galaxy
-#   requirements_file: molecule/default/requirements.yml
+  requirements_file: molecule/default/requirements.yml
 driver:
   name: docker
 platforms:
@@ -16,7 +16,13 @@ platforms:
     LANG: "en_US.UTF-8"
 provisioner:
   name: ansible
+  # log: true  # for debugging
   playbooks:
     converge: converge.yml
-# Remove Ansible no_log settings for debugging
-# log: true
+  config_options:
+    defaults:
+      # nicer stdout printing
+      stdout_callback: yaml
+      bin_ansible_callbacks: true
+      # add timing to tasks
+      callback_whitelist: profile_tasks

@@ -8,7 +8,7 @@ on:
   pull_request:
 
 env:
-  galaxy-name: "marvel-nccr.siesta"
+  galaxy-name: "marvel-nccr.abinit"
 
 jobs:
 
@@ -27,6 +27,7 @@ jobs:
 
     strategy:
       matrix:
+        # ubuntu 2004 does not have a defult apt version for libblacs-mpi-dev
         distro: [ubuntu1604, ubuntu1804]
       fail-fast: false
 

@@ -1,13 +1,28 @@
-# running all tests would take of the order of 1h
-# there is currently a bug that results in the test failing
-# https://bugs.launchpad.net/siesta/+bug/1725813
-- name: run siesta tests
-  shell: "make tests={{ item }} check"
-  args:
-    chdir: "{{ siesta_topdir }}/Obj/Tests"
-    creates: "{{ siesta_topdir }}/Obj/Tests/{{ item }}/work"
-  with_items: "{{ siesta_tests }}"
+- name: Install abinit test dependencies
+  become: true
+  apt:
+    name:
+    - ssh
 
-# fails (return code != 0), if "Test Failed." is found
-# - name: check siesta test results
-#   command: grep -vFxq "Test Failed." "{{ siesta_topdir }}/build/Testing/Temporary/LastTest.log"
+- name: Create python testing venv
+  import_role:
+    name: marvel-nccr.python
+  vars:
+    python_base_version: '3.7'
+    python_venv_path: /tmp/abinit_test_venv
+    python_venv_state: present
+    python_venv_packages:
+    - numpy==1.19.4
+    - pandas==1.1.4
+    - pyyaml==5.3.1
+
+- name: run the tests ({{ abinit_build_cpus }} cpu)
+  shell: /tmp/abinit_test_venv/bin/python runtests.py --build-tree="{{ abinit_code_folder }}/{{ abinit_src }}/build" -j {{ abinit_build_cpus }} {{ item }}
+  args:
+    chdir: "{{ abinit_code_folder }}/{{ abinit_src }}/tests"
+  register: abinit_test
+  until: not abinit_test.failed
+  retries: 2
+  delay: 1
+  loop: "{{ abinit_tests }}"
+  changed_when: false
