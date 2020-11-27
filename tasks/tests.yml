@@ -22,7 +22,7 @@
   register: test_stat_result
 
 - name: run the tests ({{ abinit_build_cpus }} cpu)
-  when: abinit_make.changed or (not test_stat_result.exists)
+  when: abinit_make.changed or (not test_stat_result.stat.exists)
   # TODO perhaps ideally you would check independently if each test group had previously passed
   shell: /tmp/abinit_test_venv/bin/python runtests.py --build-tree="{{ abinit_code_folder }}/{{ abinit_src }}/build" -j {{ abinit_build_cpus }} {{ item }}
   args:
