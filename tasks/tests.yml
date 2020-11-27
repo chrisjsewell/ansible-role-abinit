@@ -16,7 +16,14 @@
     - pandas==1.1.4
     - pyyaml==5.3.1
 
+- name: Retrieve tests passed indicator
+  stat:
+    path: "{{ abinit_code_folder }}/{{ abinit_src }}/build/TESTS_PASSED"
+  register: test_stat_result
+
 - name: run the tests ({{ abinit_build_cpus }} cpu)
+  when: abinit_make.changed or (not test_stat_result.exists)
+  # TODO perhaps ideally you would check independently if each test group had previously passed
   shell: /tmp/abinit_test_venv/bin/python runtests.py --build-tree="{{ abinit_code_folder }}/{{ abinit_src }}/build" -j {{ abinit_build_cpus }} {{ item }}
   args:
     chdir: "{{ abinit_code_folder }}/{{ abinit_src }}/tests"
@@ -26,3 +33,10 @@
   delay: 1
   loop: "{{ abinit_tests }}"
   changed_when: false
+
+- name: Write tests passed indicator
+  file:
+    path: "{{ abinit_code_folder }}/{{ abinit_src }}/build/TESTS_PASSED"
+    state: touch
+    modification_time: preserve
+    access_time: preserve
