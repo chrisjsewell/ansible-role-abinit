@@ -8,6 +8,12 @@ abinit_code_folder: "/tmp"
 abinit_built_executable: "{{ abinit_code_folder }}/{{ abinit_src }}/build/src/98_main/abinit"
 abinit_prefix: "/usr/local"
 
+# this is required for creating aiida codes
+abinit_executables:
+- name: abinit
+  folder: "{{ abinit_prefix }}"
+  plugin: abinit
+
 # used for make and runtest -j
 abinit_build_cpus: 2
 

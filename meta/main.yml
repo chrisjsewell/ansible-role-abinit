@@ -17,5 +17,5 @@ galaxy_info:
 
 dependencies:
 - name: marvel-nccr.python
-  version: v0.2.0
+  version: v0.2.2
   tags: [never]
