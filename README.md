@@ -1,5 +1,5 @@
 [![CI](https://github.com/marvel-nccr/ansible-role-abinit/workflows/CI/badge.svg)](https://github.com/marvel-nccr/ansible-role-abinit/actions)
-[![Ansible Role](https://img.shields.io/ansible/role/25521.svg)](https://galaxy.ansible.com/marvel-nccr/abinit)
+[![Ansible Role](https://img.shields.io/ansible/role/52051.svg)](https://galaxy.ansible.com/marvel-nccr/abinit)
 [![Release](https://img.shields.io/github/tag/marvel-nccr/ansible-role-abinit.svg)](https://github.com/marvel-nccr/ansible-role-abinit/releases)
 
 # Ansible Role: marvel-nccr.abinit
