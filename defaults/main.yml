@@ -8,20 +8,24 @@ abinit_code_folder: "/tmp"
 abinit_built_executable: "{{ abinit_code_folder }}/{{ abinit_src }}/build/src/98_main/abinit"
 abinit_prefix: "/usr/local"
 
+# used for make and runtest -j
+abinit_build_cpus: 2
+
+# set this for use with the marvel-nccr.libxc role,
+# otherwise libxc-dev is installed from apt
+# abinit_libxc_path: "{{ libxc_prefix }}"
+
 # this is required for creating aiida codes
 abinit_executables:
 - name: abinit
   folder: "{{ abinit_prefix }}"
   plugin: abinit
 
-# used for make and runtest -j
-abinit_build_cpus: 2
-
 # See https://docs.abinit.org/INSTALL_Ubuntu/
 abinit_config_options:
   # mandatory libraries
   # ("yes" means auto-detect or provide a direct path.)
-  with_libxc: "yes"
+  with_libxc: "{{ abinit_libxc_path | default('yes') }}"
   with_hdf5: "yes"
   with_netcdf: "yes"
   with_netcdf_fortran: "yes"

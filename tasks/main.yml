@@ -2,6 +2,8 @@
 - name: Install abinit dependencies
   become: true
   apt:
+    update_cache: yes
+    cache_valid_time: 36000
     name:
     - gfortran
     - openmpi-common
@@ -14,10 +16,16 @@
     - libnetcdf-dev
     - libnetcdff-dev
     - libscalapack-mpi-dev
-    - libxc-dev
     - netcdf-bin
     - unzip
     # - build-essential  # this would be required by ubuntu 20.04
+
+- name: Install libxc from apt
+  when: abinit_libxc_path is not defined
+  become: true
+  apt:
+    name:
+    - libxc-dev
 
 - name: Get abinit source
   block:
