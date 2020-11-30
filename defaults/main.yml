@@ -41,17 +41,17 @@ abinit_tests:
 # - bigdft
 # - bigdft_paral
 # - built-in
-- etsf_io
-- fast
+- etsf_io                # ~17s on 2 cpus
+- fast                   # ~164s on 2 cpus
 # - gpu
-- libxc[:4]
-- mpiio
-- paral
+- libxc[:4]              # ~24s on 2 cpus
+- mpiio                  # ~3s
+- paral[1:6]             # ~20s on 2 cpus
 # - psml
 # - seq
-# - tutoparal
-# - tutorespfn
-# - tutorial
+- tutoparal              # 1s
+- tutorespfn[1] -k DFPT RTA-  # ~125s on 2 cpus
+- tutorial -k DFTU       # ~42s on 2 cpus
 # - unitary
 # - v1
 # - v2
