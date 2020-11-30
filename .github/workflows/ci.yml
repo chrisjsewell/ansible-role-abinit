@@ -28,7 +28,11 @@ jobs:
     strategy:
       matrix:
         # ubuntu 2004 does not have a defult apt version for libblacs-mpi-dev
-        distro: [ubuntu1604, ubuntu1804]
+        include:
+        - distro: ubuntu1604
+          libxc: no
+        - distro: ubuntu1804
+          libxc: yes
       fail-fast: false
 
     runs-on: ubuntu-latest
@@ -60,6 +64,7 @@ jobs:
       working-directory: ${{ env.galaxy-name }}
       env:
         MOLECULE_DISTRO: ${{ matrix.distro }}
+        MOLECULE_LIBXC: ${{ matrix.libxc }}
 
   release:
     name: Publish to ansible-galaxy
