@@ -9,13 +9,18 @@
     when: ansible_os_family|lower == 'debian'
 
   vars:
-    run_tests: true
-    ansible_python_interpreter: /usr/bin/python3
     libxc_version: "4.3.4"
     libxc_prefix: "/usr/local/libxc-{{ libxc_version }}"
 
-  roles:
-  - role: marvel-nccr.libxc
-  - role: marvel-nccr.abinit
+  tasks:
+  - include_role:
+      name: marvel-nccr.libxc
+    when: test_libxc|bool
+  - include_role:
+      name: marvel-nccr.abinit
+    when: test_libxc|bool
     vars:
       abinit_libxc_path: "{{ libxc_prefix }}"
+  - include_role:
+      name: marvel-nccr.abinit
+    when: not test_libxc|bool

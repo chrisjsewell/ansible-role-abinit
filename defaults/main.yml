@@ -50,7 +50,7 @@ abinit_tests:
 # - psml
 # - seq
 - tutoparal              # 1s
-- tutorespfn[1] -k DFPT RTA-  # ~125s on 2 cpus
+- tutorespfn[1] -k DFPT RTA- EPH_OLD-  # ~125s on 2 cpus
 - tutorial -k DFTU       # ~42s on 2 cpus
 # - unitary
 # - v1
