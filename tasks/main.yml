@@ -97,7 +97,7 @@
   register: abinit_make
 
 - import_tasks: tests.yml
-  when: abinit_make.changed and run_tests is defined and run_tests
+  when: run_tests is defined and run_tests
 
 - name: Install abinit executable
   become: true
