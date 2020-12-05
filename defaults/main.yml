@@ -18,7 +18,7 @@ abinit_build_cpus: 2
 # this is required for creating aiida codes
 abinit_executables:
 - name: abinit
-  folder: "{{ abinit_prefix }}"
+  folder: "{{ abinit_prefix }}/bin"
   plugin: abinit
 
 # See https://docs.abinit.org/INSTALL_Ubuntu/
