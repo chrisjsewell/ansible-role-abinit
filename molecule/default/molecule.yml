@@ -31,5 +31,6 @@ provisioner:
       all:
         vars:
           ansible_python_interpreter: /usr/bin/python3
+          cloud_platform: docker
           run_tests: true
           test_libxc: "${MOLECULE_LIBXC:-no}"  # run marvel-nccr.libxc first
