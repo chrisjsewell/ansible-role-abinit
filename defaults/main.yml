@@ -20,6 +20,7 @@ abinit_executables:
 - name: abinit
   folder: "{{ abinit_prefix }}/bin"
   plugin: abinit
+  version: "{{ abinit_version }}"
 
 # See https://docs.abinit.org/INSTALL_Ubuntu/
 # see also options defined in abinit/config/specs/options.conf
