@@ -24,6 +24,22 @@ See `defaults/main.yml`
       abinit_version: "9.2.1"
 ```
 
+On some platforms (such as VirtualBox), the apt installed `libxc-dev` leads to test failures.
+If this is the case, you may want to use a specifically compiled version, e.g. using the `marvel-nccr.libxc` role:
+
+```yaml
+- hosts: servers
+  vars:
+    libxc_version: "4.3.4"
+    libxc_prefix: "/usr/local/libxc-{{ libxc_version }}"
+  roles:
+  - role: marvel-nccr.libxc
+  - role: marvel-nccr.abinit
+    vars:
+      abinit_version: "9.2.1"
+      abinit_libxc_path: "{{ libxc_prefix }}"
+```
+
 ## Development and testing
 
 This role uses [Molecule](https://molecule.readthedocs.io/en/latest/#) and [Docker](https://www.docker.com/) for tests.

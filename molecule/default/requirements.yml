@@ -1,2 +1,4 @@
 - role: marvel-nccr.python
   version: v0.2.0
+- role: marvel-nccr.libxc
+  version: v0.1.0
