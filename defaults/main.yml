@@ -22,6 +22,7 @@ abinit_executables:
   plugin: abinit
 
 # See https://docs.abinit.org/INSTALL_Ubuntu/
+# see also options defined in abinit/config/specs/options.conf
 abinit_config_options:
   # mandatory libraries
   # ("yes" means auto-detect or provide a direct path.)
@@ -35,6 +36,14 @@ abinit_config_options:
   # linear algebra settings
   with_linalg_flavor: "netlib"
   LINALG_LIBS: "-L/usr/lib/x86_64-linux-gnu -llapack -lblas"
+
+  # by default CFLAGS = CXXFLAGS = "-g -O2 -mtune=native -march=native"
+  # but for Docker we do not want to use the spec of the host machine
+  # (see https://stackoverflow.com/a/54163496/5033292)
+  with_optim_flavor: "{{ 'safe' if (cloud_platform and cloud_platform == 'docker') else 'standard' }}"
+  # alternatively you could set:
+  # CFLAGS: "-g -O2"
+  # CXXFLAGS: "-g -O2"
 
 abinit_tests:
 # - atompaw
