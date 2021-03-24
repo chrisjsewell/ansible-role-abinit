@@ -40,7 +40,7 @@ abinit_config_options:
   # by default CFLAGS = CXXFLAGS = "-g -O2 -mtune=native -march=native"
   # but for Docker we do not want to use the spec of the host machine
   # (see https://stackoverflow.com/a/54163496/5033292)
-  with_optim_flavor: "{{ 'safe' if (cloud_platform and cloud_platform == 'docker') else 'standard' }}"
+  with_optim_flavor: "{{ 'safe' if (cloud_platform is defined and cloud_platform == 'docker') else 'standard' }}"
   # alternatively you could set:
   # CFLAGS: "-g -O2"
   # CXXFLAGS: "-g -O2"
