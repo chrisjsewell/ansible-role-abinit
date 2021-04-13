@@ -18,9 +18,10 @@
     - libscalapack-mpi-dev
     # libraries to write/read binary files in netcdf4 format
     - libhdf5-openmpi-dev
+    - libpnetcdf-dev
+    - pnetcdf-bin
     - libnetcdf-dev
     - libnetcdff-dev
-    - libpnetcdf-dev
     - netcdf-bin
     # additional build tools
     - unzip
