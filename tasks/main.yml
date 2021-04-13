@@ -5,18 +5,25 @@
     update_cache: yes
     cache_valid_time: 36000
     name:
+    # compiler
     - gfortran
+    # MPI
     - openmpi-common
     - openmpi-bin
     - libopenmpi-dev
-    - libblacs-mpi-dev  # this is not available on ubuntu 20.04
+    # Linear Algebra libraries
+    - libblacs-mpi-dev  # this is not yet available on ubuntu 20.04
     - libblas-dev
-    - libhdf5-openmpi-dev
     - liblapack-dev
+    - libscalapack-mpi-dev
+    # libraries to write/read binary files in netcdf4 format
+    - libhdf5-openmpi-dev
+    - libpnetcdf-dev
+    - pnetcdf-bin
     - libnetcdf-dev
     - libnetcdff-dev
-    - libscalapack-mpi-dev
     - netcdf-bin
+    # additional build tools
     - unzip
     # - build-essential  # this would be required by ubuntu 20.04
 
